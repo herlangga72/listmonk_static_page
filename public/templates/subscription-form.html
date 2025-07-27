@@ -1,0 +1,107 @@
+{{ define "subscription-form" }}
+{{ template "header" . }}
+<section>
+    <h2>{{ L.T "public.subTitle" }}</h2>
+
+    <form method="post" action="" class="form">
+        <div>
+            <p>
+                <label for="email">{{ L.T "subscribers.email" }}</label>
+                <input id="email" name="email" required="true" type="email" placeholder="{{ L.T "subscribers.email" }}" autofocus="true" >
+
+                <input name="nonce" class="nonce" value="" />
+            </p>
+            <p>
+                <label for="name">{{ L.T "public.subName" }}</label>
+                <input id="name" name="name" type="text" placeholder="{{ L.T "public.subName" }}" >
+            </p>
+
+            <ul class="lists">
+                <h2>{{ L.T "globals.terms.lists" }}</h2>
+                {{ range $i, $l := .Data.Lists }}
+                    <li>
+                        <input checked="true" id="l-{{ $l.UUID}}" type="checkbox" name="l" value="{{ $l.UUID }}" >
+                        <label for="l-{{ $l.UUID}}">{{ $l.Name }}</label>
+                        {{ if ne $l.Description "" }}
+                            <p class="description">{{ $l.Description }}</p>
+                        {{ end }}
+                    </li>
+                {{ end }}
+            </ul>
+
+            {{ if .Data.CaptchaKey }}
+                <div class="captcha">
+                    <div class="h-captcha" data-sitekey="{{ .Data.CaptchaKey }}"></div>
+                    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+                </div>
+            {{ end }}
+            <p>
+                <button type="submit" class="button">{{ L.T "public.sub" }}</button>
+
+                {{ if .EnablePublicArchive }}
+                    <p class="right">
+                        <a href="{{ .RootURL }}/archive">{{ L.T "public.archiveTitle" }}</a>
+                    </p>
+                {{ end }}
+            </p>
+        </div>
+    </form>
+</section>
+
+{{ template "footer" .}}
+{{ end }}
+
+
+<html><head>
+    <meta charset="UTF-8">
+    <title>UMS Newsletter Email Confirmation</title>
+  </head>
+  <body style="margin:0; padding:0; background:#fff; font-family:Arial, Helvetica, sans-serif; background:#2d2e83;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#2d2e83">
+      <tbody><tr>
+        <td align="center">
+          <table width="480" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius:12px; margin:40px 0;">
+            <tbody><tr>
+              <td align="center" style="padding:0;">
+                <img src="/home/herlanggays/Downloads/UMSNewsletter.png" alt="UMS Newsletter" width="480" style="display:block; width:100%; max-width:480px; border-radius:12px 12px 0 0;">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:10px 0 0 0;">
+                <img src="/home/herlanggays/Downloads/PaperPlane.png" alt="Confirmation Newsletter" width="480" style="display:block; margin:0 auto;">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:24px 32px 0 32px;">
+                <h1 style="margin:0 0 12px 0; font-size:28px; color:#22223b; font-weight:normal;">
+                  Please confirm<br>your <strong>email address</strong>
+                </h1>
+                <p style="margin:0 0 8px 0; font-size:16px; color:#7a7a7a;">
+                  Thanks for signing up to UMS Newsletter. We're happy to share our
+                  latest updates to you. Please take a second to make sure we have
+                  your <span style="font-weight:bold; color:#444;"></span>
+                </p>
+              </td>
+            </tr>
+            <!-- Button -->
+            <tr>
+              <td align="center" style="padding:0 0 40px 0;">
+                <a href="https://ums-news.example.com/confirm" style="
+                    display:inline-block;
+                    padding:14px 36px;
+                    background:#2d2e83;
+                    color:#fff;
+                    border-radius:8px;
+                    font-size:18px;
+                    font-weight:bold;
+                    text-decoration:none;
+                    margin-top:16px;
+                  " target="_blank">Confirm now</a>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+    </tbody></table>
+  
+</body></html>
